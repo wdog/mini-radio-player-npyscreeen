@@ -7,8 +7,8 @@ mkdir projects
 cd projects
 git clone https://github.com/wdog/mini-radio-player-npyscreeen.git
 cd mini-radio-player-npyscreeen
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ./r.py
 ```
