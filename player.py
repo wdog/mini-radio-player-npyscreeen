@@ -9,12 +9,13 @@ class Player:
     current_station = None
     is_playing = False
     instance = None
-
+    volume = 30 
     
     def __init__(self):
         try:
             self.instance = vlc.Instance('--verbose=-1')
             self.player = self.instance.media_player_new()
+            self.get_volume()
             # add avent for tittle change
             self.events = self.player.event_manager()
             self.events.event_attach(
@@ -30,17 +31,22 @@ class Player:
     def load_station(self, station):
         """ load new station """
         try:
+            # if it's playing and change must play the 
+            # new station otherwise pause
+            if ( self.is_playing and self.current_station != station ):
+                self.is_playing = False
+
             self.current_station = station
             self.player.set_mrl((station).url)
         except Exception as e:
             print(e)
+
 
     def toggle(self):
         if (self.is_playing):
             self.player.stop()
         else:
             self.player.play()
-
         self.is_playing = not self.is_playing
 
     def play(self):
@@ -57,7 +63,7 @@ class Player:
         info = []
         
         startTime = time()
-        waitFor = 2
+        waitFor = 1
         try:
             while True:
                 media = self.player.get_media()
@@ -77,3 +83,11 @@ class Player:
             info = ['Loading...','','']
             
         return info
+
+    def set_volume(self,vol):
+        """ set volume """
+        self.player.audio_set_volume(int(vol))
+        
+    def get_volume(self):
+        """ get volume """
+        self.player.volume = self.player.audio_get_volume()

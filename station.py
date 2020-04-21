@@ -1,6 +1,7 @@
 import logging
 import json
 import sys
+from radio_station import RadioStation
 
 
 class Station:
@@ -31,11 +32,3 @@ class Station:
             logging.warn(e)
 
 
-class RadioStation():
-    """docstring for RadioStation"""
-    def __init__(self,s):
-        self.name= s['name']
-        self.url = s['url']
-        
-    def __str__(self):
-        return self.name
