@@ -21,7 +21,7 @@ class App(npyscreen.NPSAppManaged):
         # Set the theme. 
         npyscreen.setTheme(AppColorTheme)
 
-        self.main = self.addForm("MAIN", MainForm, name="Mini-Radio-Player",draw_line_at=20)
+        self.main = self.addForm("MAIN", MainForm, name="Mini-Radio-Player")
 
     """ called when option is selected with enter or space """
     def activate_play(self,station):
@@ -41,7 +41,7 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         self.stations = self.add(SelectRadio,
                 name='stations', 
                 value = [0,], 
-                max_height=18,  
+                max_height=(y-9),  
                 values= self.parentApp.sm.stations,
                 scroll_exit=False
                 )
