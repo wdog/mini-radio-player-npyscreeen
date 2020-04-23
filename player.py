@@ -1,7 +1,6 @@
 import vlc
 import time
 import logging
-from time import time
 
 
 class Player:
@@ -33,14 +32,13 @@ class Player:
         try:
             # if it's playing and change must play the
             # new station otherwise pause
-            if ( self.is_playing and self.current_station != station ):
+            if (self.is_playing and self.current_station != station):
                 self.is_playing = False
 
             self.current_station = station
             self.player.set_mrl((station).url)
         except Exception as e:
             print(e)
-
 
     def toggle(self):
         if (self.is_playing):
@@ -62,17 +60,16 @@ class Player:
         """ get stream info """
         info = []
 
-        startTime = time()
+        startTime = time.time()
         waitFor = 1
         try:
             while True:
                 media = self.player.get_media()
                 media.parse_with_options(1, 0)
 
-
                 # 0 exists
                 if media.get_meta(12) and len(media.get_meta(12)) > 0 or (
-                        waitFor < ( time() - startTime)):
+                        waitFor < (time.time() - startTime)):
                     break
 
             info.append(media.get_meta(0) if media.get_meta(0) else '')
@@ -80,14 +77,17 @@ class Player:
             info.append(media.get_meta(12) if media.get_meta(12) else '')
         except Exception as e:
             logging.warn(e)
-            info = ['Loading...','','']
+            info = ['Loading...', '', '']
 
         return info
 
-    def set_volume(self,vol):
+    def set_volume(self, vol):
         """ set volume """
         self.player.audio_set_volume(int(vol))
 
     def get_volume(self):
         """ get volume """
         self.player.volume = self.player.audio_get_volume()
+
+    def toggle_mute(self):
+        self.player.audio_toggle_mute()

@@ -55,8 +55,13 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
 
         """ MENU """
         self.menu = self.new_menu(name="Menu", shortcut='m')
-        self.menu.addItem("DEBUG", self.get_menu, '^I')
         self.menu.addItem("Quit", self.exit_application, '^X')
+
+        self.menu.addItemsFromList([
+            ("Mute (m)",''),
+            ("Play/Pause (Enter/Spacebar)",''),
+            ("Filter Station (L)",''),
+            ("Exit Application", self.exit_application, "^X")])
 
         """ HANDLERS """
         # update station info
@@ -65,6 +70,8 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
         self.add_handlers({
             ord('q'): self.exit_application,
             ord('Q'): self.exit_application, })
+        # mute
+        self.add_handlers({ord('m'):  self.toggle_mute})
         # quit ESC
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = \
             self.exit_application
@@ -98,6 +105,9 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
     def get_menu(self):
         logging.debug(self.stations.get_selected_objects()[0].url)
 
+    def toggle_mute(self, ch):
+        self.parentApp.player.toggle_mute()
+
     """ quit app """
     def exit_application(self, ch=''):
         self.parentApp.switchForm(None)
@@ -108,5 +118,3 @@ if __name__ == '__main__':
                         format='%(name)s [%(levelname)s] %(message)s',
                         datefmt='%H:%M:%S', level=logging.DEBUG)
     npyscreen.wrapper(App().run())
-    # A = App()
-    # A.run()
