@@ -24,7 +24,7 @@ EDIT:
 
 `mini-radio-player-npyscreen/venv/lib/python3.8/site-packages/npyscreen/apNPSApplicationEvents.py`
 
-and changand change 
+and change `Raise StopIteration` with a `return` 
 
 ```
  def get(self, maximum=None):
