@@ -24,7 +24,7 @@ EDIT:
 
 `mini-radio-player-npyscreen/venv/lib/python3.8/site-packages/npyscreen/apNPSApplicationEvents.py`
 
-and changand changee
+and changand change 
 
 ```
  def get(self, maximum=None):
@@ -35,8 +35,9 @@ and changand changee
             try:
                 yield self.interal_queue.pop()
             except IndexError:
-                #raise StopIteration
-                return 
+
+                return
+
             counter += 1
 ```
 
