@@ -12,7 +12,6 @@ class RoundCheckBox(checkbox.Checkbox):
         self.value = value
         super().__init__(screen, **keywords)
 
-
 """ SELECT """
 class SelectRadio(npyscreen.SelectOne):
     _contained_widgets = RoundCheckBox
@@ -27,6 +26,9 @@ class SelectRadio(npyscreen.SelectOne):
         # update row selection
         self.value= [self.cursor_line,]
         # return radio selected by row
+        self.parent.parentApp.queue_event(npyscreen.Event("event_station_select"))
         self.parent.parentApp.activate_play(self.values[self.cursor_line])
 
 
+class SelectBoxRadio(npyscreen.BoxTitle):
+        _contained_widget = SelectRadio 
