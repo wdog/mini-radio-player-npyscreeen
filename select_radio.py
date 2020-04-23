@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 
 import npyscreen
-from npyscreen import wgcheckbox  as checkbox
+from npyscreen import wgcheckbox as checkbox
+
 
 class RoundCheckBox(checkbox.Checkbox):
-    
-    False_box = ''
-    True_box  = '»-»'
 
-    def __init__(self, screen, value = False, **keywords):
+    False_box = ''
+    True_box = '»-»'
+
+    def __init__(self, screen, value=False, **keywords):
         self.value = value
         super().__init__(screen, **keywords)
 
-""" SELECT """
+
 class SelectRadio(npyscreen.SelectOne):
     _contained_widgets = RoundCheckBox
 
@@ -23,12 +24,10 @@ class SelectRadio(npyscreen.SelectOne):
         super().create()
 
     def h_select(self, ch):
-        # update row selection
-        self.value= [self.cursor_line,]
-        # return radio selected by row
-        self.parent.parentApp.queue_event(npyscreen.Event("event_station_select"))
-        self.parent.parentApp.activate_play(self.values[self.cursor_line])
+        self.value = [self.cursor_line, ]
+        self.parent.parentApp.queue_event(
+            npyscreen.Event("ev_station_select"))
 
 
 class SelectBoxRadio(npyscreen.BoxTitle):
-        _contained_widget = SelectRadio 
+    _contained_widget = SelectRadio

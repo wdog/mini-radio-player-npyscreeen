@@ -9,8 +9,8 @@ class Player:
     current_station = None
     is_playing = False
     instance = None
-    volume = 30 
-    
+    volume = 30
+
     def __init__(self):
         try:
             self.instance = vlc.Instance('--verbose=-1')
@@ -22,7 +22,7 @@ class Player:
                 vlc.EventType.MediaParsedChanged, self.ParseReceived)
         except Exception as e:
             logging.critical(e)
-    
+
     def ParseReceived(self):
         media = self.player.get_media()
         media.parse_with_options(1, 0)
@@ -31,7 +31,7 @@ class Player:
     def load_station(self, station):
         """ load new station """
         try:
-            # if it's playing and change must play the 
+            # if it's playing and change must play the
             # new station otherwise pause
             if ( self.is_playing and self.current_station != station ):
                 self.is_playing = False
@@ -61,7 +61,7 @@ class Player:
     def get_info(self):
         """ get stream info """
         info = []
-        
+
         startTime = time()
         waitFor = 1
         try:
@@ -69,8 +69,8 @@ class Player:
                 media = self.player.get_media()
                 media.parse_with_options(1, 0)
 
-                
-                # 0 exists 
+
+                # 0 exists
                 if media.get_meta(12) and len(media.get_meta(12)) > 0 or (
                         waitFor < ( time() - startTime)):
                     break
@@ -81,13 +81,13 @@ class Player:
         except Exception as e:
             logging.warn(e)
             info = ['Loading...','','']
-            
+
         return info
 
     def set_volume(self,vol):
         """ set volume """
         self.player.audio_set_volume(int(vol))
-        
+
     def get_volume(self):
         """ get volume """
         self.player.volume = self.player.audio_get_volume()

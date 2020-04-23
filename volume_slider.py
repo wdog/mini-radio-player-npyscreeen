@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import npyscreen
 
-""" SLIDER """
+
 class VolumeSlider(npyscreen.Slider):
 
     def __init__(self, *args, **keywords):
@@ -15,10 +15,11 @@ class VolumeSlider(npyscreen.Slider):
 #
 
     def h_increase(self, ch):
-        if (self.value + self.step <= self.out_of): self.value += self.step
-        self.parent.parentApp.player.set_volume(self.value)
+        if (self.value + self.step <= self.out_of):
+            self.value += self.step
+            self.parent.parentApp.queue_event(npyscreen.Event("ev_set_volume"))
 
     def h_decrease(self, ch):
-        if (self.value - self.step >= self.lowest): self.value -= self.step
-        self.parent.parentApp.player.set_volume(self.value)
-
+        if (self.value - self.step >= self.lowest):
+            self.value -= self.step
+            self.parent.parentApp.queue_event(npyscreen.Event("ev_set_volume"))
