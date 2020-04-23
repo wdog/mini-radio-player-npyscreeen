@@ -2,6 +2,8 @@
 Python Mini Radio Player with npyscreen
 
 
+![](images/screenshot.png)
+
 ```bash
 mkdir projects
 cd projects
