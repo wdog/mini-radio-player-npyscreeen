@@ -20,15 +20,23 @@ class Station:
         for s in sts:
             self.stations.append(RadioStation(s))            
 
-    def change_order(self, src, dst):
-        """ rewrite stations file with different order """
-        origSrc = self.stations[src]
-        self.stations[src] = self.stations[dst]
-        self.stations[dst] = origSrc
-        try:  
-            with open('radio.json','w') as f:
-                json.dump(self.stations,f)
-        except Exception as e:
-            logging.warn(e)
+    def change_order(self, o_src=-1, o_dst=-1):
 
+        if ( not o_src or not o_dst ):
+            return
 
+        src = o_src[0]
+        dst = o_dst[0]
+    
+        lines = []
+        with open('radio.json') as f:
+            lines = json.load(f)
+       
+        # SWAP LINES
+        #lines[src], lines[dst] = lines[dst], lines[src]
+
+        moved = lines.pop(src)
+        lines.insert(dst, moved)
+
+        with open('radio.json','w') as f:
+            json.dump(lines,f,indent=4)
