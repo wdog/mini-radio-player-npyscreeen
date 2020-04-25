@@ -32,10 +32,10 @@ class OrderForm(npyscreen.ActionForm):
         y, x = self.useable_space()
 
         self.src = self.add(npyscreen.TitleSelectOne, name="Move Selected Radio:", relx= 1, rely=1, width=(x//2) - 5,
-                                    scroll_exit=True, max_height=y - 3 , values = self.parentApp.sm.stations)
+                            max_height= (y-3) , values = self.parentApp.sm.stations)
 
         self.dst = self.add(npyscreen.TitleSelectOne, name="Prepend Selected Position:", relx= (x // 2)+3, rely=1, width=(x//2) - 5,
-                scroll_exit=True, max_height= y - 3 , values = self.parentApp.sm.stations)
+                            max_height= (y-3) , values = self.parentApp.sm.stations)
 
     def beforeEditing(self):
         self.src.value=0
@@ -101,9 +101,10 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
         self.menu.addItemsFromList([
             ("HELP",None,''),
             ("---",None,''),
-            ("m) Mute",None),
-            ("x ENTER SPACEBAR) Play/Pause",None),
-            ("l) Filter Station",None),
+            ("[m] Mute",None),
+            ("[o] Reorder List",None),
+            ("[x|ENTER|SPACEBAR] Play/Pause",None),
+            ("[l] Filter Station",None),
             (),
             ("Exit Application", self.exit_application, "^X")])
 
