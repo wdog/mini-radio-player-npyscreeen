@@ -12,7 +12,6 @@ class VolumeSlider(npyscreen.Slider):
 
     def translate_value(self):
         return "Volume {:2d} %".format(int(self.value))
-#
 
     def h_increase(self, ch):
         if (self.value + self.step <= self.out_of):

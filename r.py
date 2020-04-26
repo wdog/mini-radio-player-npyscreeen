@@ -7,7 +7,6 @@ from player import Player
 from select_radio import SelectBoxRadio
 from volume_slider import VolumeSlider
 from color_theme import AppColorTheme
-import time
 
 
 class App(npyscreen.StandardApp):
@@ -19,7 +18,7 @@ class App(npyscreen.StandardApp):
         npyscreen.setTheme(AppColorTheme)
 
         self.main = self.addForm("MAIN", MainForm, name="Mini-Radio-Player")
-        self.order = self.addForm("ORDERFORM", OrderForm, name="Reorder Station")
+        self.order = self.addForm("ORDERFORM", OrderForm, name="Change Order")
 
     """ called when option is selected with enter or space """
     def activate_play(self, station):
@@ -27,21 +26,26 @@ class App(npyscreen.StandardApp):
         self.player.toggle()
         self.main.status_update()
 
+
 class OrderForm(npyscreen.ActionForm):
     def create(self):
         y, x = self.useable_space()
 
-        self.src = self.add(npyscreen.TitleSelectOne, name="Move Selected Radio:", relx= 1, rely=1, width=(x//2) - 5,
-                            max_height= (y-3) , values = self.parentApp.sm.stations)
+        self.src = self.add(npyscreen.TitleSelectOne,
+                            name="Move Selected Radio:", relx=1, rely=1,
+                            width=(x//2)-5, max_height=(y-3),
+                            values=self.parentApp.sm.stations)
 
-        self.dst = self.add(npyscreen.TitleSelectOne, name="Prepend Selected Position:", relx= (x // 2)+3, rely=1, width=(x//2) - 5,
-                            max_height= (y-3) , values = self.parentApp.sm.stations)
+        self.dst = self.add(npyscreen.TitleSelectOne,
+                            name="Prepend Selected Position:", relx=(x // 2)+3,
+                            rely=1, width=(x//2) - 5, max_height=(y-3),
+                            values=self.parentApp.sm.stations)
 
     def beforeEditing(self):
-        self.src.value=0
-        self.dst.value=0
+        self.src.value = 0
+        self.dst.value = 0
         self.update_list()
-    
+
     def update_list(self):
         self.parentApp.sm.load_stations_list()
         self.src.values = self.parentApp.sm.stations
@@ -50,7 +54,7 @@ class OrderForm(npyscreen.ActionForm):
         self.dst.display()
 
     def on_ok(self):
-        self.parentApp.sm.change_order(self.src.value,self.dst.value)
+        self.parentApp.sm.change_order(self.src.value, self.dst.value)
         self.parentApp.sm.load_stations_list()
         self.show_main()
 
@@ -65,7 +69,7 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
 
     def beforeEditing(self):
         self.update_list()
-    
+
     def update_list(self):
         self.parentApp.sm.load_stations_list()
         self.stations.values = self.parentApp.sm.stations
@@ -74,9 +78,9 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
     def create(self):
         y, x = self.useable_space()
 
-        self.stations = self.add(SelectBoxRadio, name='STATIONS', value=[0, ],
-                                 rely = 1, 
-                                 max_height=(y-8),
+        self.stations = self.add(SelectBoxRadio,
+                                 name='STATIONS', value=[0, ],
+                                 rely=1, max_height=(y-8),
                                  values=self.parentApp.sm.stations,
                                  scroll_exit=False)
 
@@ -99,12 +103,12 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
         self.menu = self.new_menu(name="Menu", shortcut='m')
 
         self.menu.addItemsFromList([
-            ("HELP",None,''),
-            ("---",None,''),
-            ("[m] Mute",None),
-            ("[o] Reorder List",None),
-            ("[x|ENTER|SPACEBAR] Play/Pause",None),
-            ("[l] Filter Station",None),
+            ("HELP", None, ''),
+            ("---", None, ''),
+            ("[m] Mute", None),
+            ("[o] Reorder List", None),
+            ("[x|ENTER|SPACEBAR] Play/Pause", None),
+            ("[l] Filter Station", None),
             (),
             ("Exit Application", self.exit_application, "^X")])
 
@@ -122,17 +126,15 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
         # QUIT ESC
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = \
             self.exit_application
-        
+
         # on select station
         self.add_event_hander("ev_station_select", self.ev_station_select)
         # on change volume
         self.add_event_hander("ev_set_volume", self.ev_set_volume)
 
-
-
-
     def ev_station_select(self, event):
-        self.parentApp.activate_play( self.stations.values[self.stations.value[0]])
+        self.parentApp.activate_play(
+                self.stations.values[self.stations.value[0]])
 
     def ev_set_volume(self, event):
         self.parentApp.player.set_volume(self.volume.value)
@@ -162,7 +164,7 @@ class MainForm(npyscreen.FormBaseNewWithMenus, npyscreen.Form):
 
     def form_order(self, *args, **keywords):
         self.parentApp.switchForm('ORDERFORM')
-        
+
 
 if __name__ == '__main__':
     logging.basicConfig(filename="app.log",

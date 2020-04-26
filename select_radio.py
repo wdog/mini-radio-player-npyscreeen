@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import npyscreen
-import logging
 from npyscreen import wgcheckbox as checkbox
 
 
@@ -26,7 +25,7 @@ class SelectRadio(npyscreen.SelectOne):
 
     def h_select(self, ch):
         self.value = self.cursor_line
-        self.parent.parentApp.queue_event( npyscreen.Event("ev_station_select"))
+        self.parent.parentApp.queue_event(npyscreen.Event("ev_station_select"))
 
 
 class SelectBoxRadio(npyscreen.BoxTitle):
